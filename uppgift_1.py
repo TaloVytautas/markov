@@ -17,5 +17,6 @@ for row in model:
         row /= sum
 
 for current, next in zip(testing_data[:-1], testing_data[1:]):
-    print(model[current-1][next-1])
     pi *= model[current-1][next-1]
+
+print(pi)
