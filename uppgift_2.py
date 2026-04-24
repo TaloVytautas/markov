@@ -7,7 +7,6 @@ data = np.load("trajectory.npy")
 model = np.zeros((100,100))
 
 pi = 1
-
 pi_log = 0
 
 b = 0.11
@@ -21,6 +20,8 @@ for row in model:
     row /= divisor
 
 for current, next in zip(testing_data[:-1], testing_data[1:]):
+    pi *= model[current-1][next-1]
     pi_log += np.log(model[current-1][next-1])
 
-print(pi_log)
+print(pi)
+print(pi_log/np.log(10))
