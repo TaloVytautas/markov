@@ -4,16 +4,18 @@ data = np.load("trajectory.npy")
 
 [training_data, testing_data] = np.array_split(data, 2)
 
-model = [[0]*100]*100
+model = np.zeros((100,100))
 
-model = np.array(model)
+pi = 1
 
-pi = 0
-
-for i, item in enumerate(training_data, 1):
-    model[training_data[i-1]-1][item-1] += 1
+for current, next in zip(training_data[:-1], training_data[1:]):
+    model[current-1][next-1] += 1
 
 for row in model:
-    sum = sum(row)
-    for item in row:
-        item = item/sum
+    sum = row.sum()
+    if sum != 0:
+        row /= sum
+
+for current, next in zip(testing_data[:-1], testing_data[1:]):
+    print(model[current-1][next-1])
+    pi *= model[current-1][next-1]
