@@ -13,4 +13,7 @@ pi = 0
 for i, item in enumerate(training_data, 1):
     model[training_data[i-1]-1][item-1] += 1
 
-print(model)
+for row in model:
+    sum = sum(row)
+    for item in row:
+        item = item/sum
