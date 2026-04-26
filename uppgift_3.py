@@ -1,5 +1,6 @@
 import numpy as np
 import random
+import matplotlib.pyplot as plt
 
 data = np.load("trajectory.npy")
 
@@ -13,6 +14,9 @@ for current, next in zip(training_data[:-1], training_data[1:]):
 best_pi = 1
 best_pi_log = -1000000000000000000000000000000000000000000000000
 best_b = 0
+
+b_values = []
+log_values = []
 
 for i in range(10000):
     testing_model = []
@@ -28,7 +32,8 @@ for i in range(10000):
     for current, next in zip(testing_data[:-1], testing_data[1:]):
         pi *= testing_model[current-1][next-1]
         pi_log += np.log(testing_model[current-1][next-1])
-    
+    b_values.append(b)
+    log_values.append(pi_log)
     if best_pi_log < pi_log:
         best_pi_log = pi_log
         best_pi = pi
@@ -37,3 +42,5 @@ for i in range(10000):
 print(best_pi)
 print(best_pi_log/np.log(10))
 print(best_b)
+plt.scatter(b_values, log_values)
+plt.show()
