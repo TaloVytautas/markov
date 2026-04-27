@@ -14,7 +14,7 @@ best_pi = 1
 best_pi_log = -1000000000000000000000000000000000000000000000000
 best_b = 0
 
-b_values = np.linspace(0.1126, 0.1128, 1000)
+b_values = np.linspace(0.11265, 0.11275, 1000)
 log_values = []
 
 for b in b_values:
