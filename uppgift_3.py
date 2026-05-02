@@ -1,0 +1,43 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+data = np.load("trajectory.npy")
+
+[training_data, testing_data] = np.array_split(data, 2)
+
+model = np.zeros((100,100))
+
+for current, next in zip(training_data[:-1], training_data[1:]):
+    model[current-1][next-1] += 1
+
+best_pi = 1
+best_pi_log = -1000000000000000000000000000000000000000000000000
+best_b = 0
+
+b_values = np.linspace(0.11265, 0.11275, 1000)
+log_values = []
+
+for b in b_values:
+    testing_model = []
+    pi = 1
+    pi_log = 0
+    for row in model:
+        divisor = row.sum() + b*100
+        testing_row = row + b
+        testing_row /= divisor
+        testing_model.append(testing_row)
+    
+    for current, next in zip(testing_data[:-1], testing_data[1:]):
+        pi *= testing_model[current-1][next-1]
+        pi_log += np.log(testing_model[current-1][next-1])
+    log_values.append(pi_log/np.log(10))
+    if best_pi_log < pi_log:
+        best_pi_log = pi_log
+        best_pi = pi
+        best_b = b
+
+print(best_pi)
+print(best_pi_log/np.log(10))
+print(best_b)
+plt.scatter(b_values, log_values)
+plt.show()
