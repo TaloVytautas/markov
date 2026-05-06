@@ -11,10 +11,10 @@ for current, next in zip(training_data[:-1], training_data[1:]):
     model[current-1][next-1] += 1
 
 best_pi = 1
-best_pi_log = -1000000000000000000000000000000000000000000000000
+best_pi_log = -np.inf
 best_b = 0
 
-b_values = np.linspace(0.11265, 0.11275, 1000)
+b_values = np.linspace(0.01, 1, 10000)
 log_values = []
 
 for b in b_values:
