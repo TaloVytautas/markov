@@ -7,8 +7,10 @@ data = np.load("trajectory.npy")
 
 model = np.zeros((100,100))
 
-for current, next in zip(training_data[:-1], training_data[1:]):
-    model[current-1][next-1] += 1
+current_states = training_data[:-1]-1
+next_states = training_data[1:]-1
+
+np.add.at(model, (current_states, next_states), 1)
 
 row_sum = np.sum(model, 1, keepdims=True)
 
